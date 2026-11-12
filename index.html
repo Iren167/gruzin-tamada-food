@@ -38,7 +38,24 @@ a{color:inherit}
 .nav a::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:100%;background:var(--wine);transform:scaleX(0);transform-origin:right;transition:transform .35s var(--ease)}
 .nav a:hover::after{transform:scaleX(1);transform-origin:left}
 section{scroll-margin-top:64px}
-@media(max-width:760px){.bar{border-radius:28px;flex-wrap:wrap;gap:6px 12px;padding:8px 14px}.nav{order:3;width:100%;gap:16px;overflow-x:auto;white-space:nowrap}.nav a{font-size:.88rem}section{scroll-margin-top:110px}}
+.burger{display:none;width:44px;height:44px;border-radius:12px;border:1px solid rgba(122,31,43,.22);background:transparent;cursor:pointer;position:relative;flex-shrink:0;margin-left:2px}
+.burger span,.burger span::before,.burger span::after{content:"";position:absolute;left:12px;width:20px;height:2px;background:var(--wine-d);border-radius:2px;transition:transform .3s var(--ease),background .2s}
+.burger span{top:21px}.burger span::before{left:0;top:-6px}.burger span::after{left:0;top:6px}
+.bar.is-open .burger span{background:transparent}
+.bar.is-open .burger span::before{transform:translateY(6px) rotate(45deg)}
+.bar.is-open .burger span::after{transform:translateY(-6px) rotate(-45deg)}
+@media(max-width:760px){
+ .bar{top:0;left:0;transform:none;width:100%;border-radius:0;border-width:0 0 1px 0;flex-wrap:nowrap;gap:10px;padding:7px 12px 7px 16px;background:rgba(255,250,240,.82);box-shadow:0 4px 14px rgba(82,16,25,.1)}
+ .bar b{margin-right:auto;font-size:1.05rem}
+ .bar .btn{padding:8px 16px;font-size:.9rem;white-space:nowrap}
+ .burger{display:block}
+ .nav{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;gap:0;padding:4px 16px 12px;background:rgba(255,250,240,.97);border-bottom:1px solid rgba(122,31,43,.15);box-shadow:0 14px 24px -12px rgba(82,16,25,.25);overflow:visible;white-space:normal;order:0;width:auto}
+ .bar.is-open .nav{display:flex}
+ .nav a{padding:14px 0;font-size:1rem;border-bottom:1px solid rgba(122,31,43,.12)}
+ .nav a:last-child{border-bottom:0}
+ .nav a::after{display:none}
+ section{scroll-margin-top:64px}
+}
 
 /* ---------- hero: тёплый градиент, арка, стекло ---------- */
 .hero{position:relative;overflow:hidden;min-height:100svh;display:grid;grid-template-columns:1.05fr 1fr;align-items:center;padding-top:84px;background:radial-gradient(circle at 12% 18%,#ffd98a 0,transparent 42%),radial-gradient(circle at 88% 80%,#e58a73 0,transparent 45%),radial-gradient(circle at 60% 10%,#f6c9a8 0,transparent 38%),var(--cream)}
@@ -53,7 +70,7 @@ section{scroll-margin-top:64px}
 .hero p{max-width:30em;font-size:1.12rem;margin:20px 0 30px;color:#5a463d}
 .hero small{display:block;margin-top:18px;color:#7a665b}
 .hero-art{position:relative;z-index:2;justify-self:center;width:min(440px,86%);padding:10px 0 40px}
-.hero-pic{position:relative;overflow:hidden;border-radius:999px 999px 36px 36px;aspect-ratio:3/4;box-shadow:0 30px 60px rgba(82,16,25,.3);border:8px solid rgba(255,255,255,.55)}
+.hero-pic{position:relative;overflow:hidden;border-radius:36px;aspect-ratio:3/4;box-shadow:0 30px 60px rgba(82,16,25,.3);border:8px solid rgba(255,255,255,.55)}
 .hero-pic img{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.12);animation:zoom 14s ease-out forwards}
 @keyframes zoom{to{transform:scale(1)}}
 .glass{background:rgba(255,250,240,.62);backdrop-filter:blur(16px) saturate(1.5);-webkit-backdrop-filter:blur(16px) saturate(1.5);border:1px solid rgba(255,255,255,.65);box-shadow:0 12px 32px rgba(82,16,25,.2)}
@@ -63,7 +80,7 @@ section{scroll-margin-top:64px}
 .badge.b1{left:-34px;bottom:90px}
 .badge.b2{right:-26px;top:70px;animation-delay:-2.5s}
 @keyframes float{50%{transform:translateY(-10px)}}
-@media(max-width:860px){.hero{grid-template-columns:1fr;min-height:0;padding-top:96px}.hero-art{order:-1;width:min(300px,76%);padding-bottom:20px}.badge.b1{left:-14px}.badge.b2{right:-14px}.hero-text{padding:20px 20px 56px}}
+@media(max-width:860px){.hero{grid-template-columns:1fr;min-height:0;padding-top:78px}.hero-art{order:-1;width:min(300px,76%);padding-bottom:20px}.badge.b1{left:-14px}.badge.b2{right:-14px}.hero-text{padding:20px 20px 56px}}
 
 /* ---------- бегущая строка ---------- */
 .marquee{background:var(--wine-d);color:var(--saffron);overflow:hidden;white-space:nowrap;padding:14px 0;font-family:'Playfair Display',serif;font-size:1.25rem}
@@ -112,14 +129,11 @@ h2{font-size:clamp(1.8rem,4.5vw,2.9rem);color:var(--wine);margin-bottom:12px}
 @keyframes bump{40%{transform:scale(1.18)}}
 
 .why{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
-.collage{position:relative;aspect-ratio:1/1.05}
-.collage img{position:absolute;object-fit:cover;border-radius:22px;box-shadow:0 18px 36px rgba(42,26,20,.25);transition:transform .6s var(--ease)}
-.collage .c1{left:0;top:0;width:66%;height:74%;border-radius:999px 999px 28px 28px}
-.collage .c2{right:0;top:18%;width:42%;height:42%;border-radius:50%;border:6px solid var(--cream)}
-.collage .c3{left:14%;bottom:0;width:56%;height:32%;border-radius:999px;border:6px solid var(--cream)}
-.collage:hover .c1{transform:rotate(-2deg)}
-.collage:hover .c2{transform:rotate(3deg) translateY(-6px)}
-.collage:hover .c3{transform:rotate(-3deg) translateY(6px)}
+.collage{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.collage img{width:100%;height:100%;object-fit:cover;border-radius:24px;box-shadow:0 18px 36px rgba(42,26,20,.22);transition:transform .6s var(--ease)}
+.collage .c1{grid-column:1/-1;aspect-ratio:16/10}
+.collage .c2,.collage .c3{aspect-ratio:1/1}
+.collage img:hover{transform:translateY(-6px) scale(1.02)}
 .why ul{list-style:none;margin-top:22px}
 .why li{padding:14px 0 14px 34px;border-bottom:1px solid #e3d3bd;position:relative}
 .why li::before{content:"✦";position:absolute;left:0;color:var(--saffron)}
@@ -162,8 +176,9 @@ footer{background:var(--wine-d);color:#d9bfae;font-size:.85rem;padding:22px 0;te
 <body>
 
 <div class="bar"><b>Тамада Фуд</b>
-  <nav class="nav"><a href="#how">Как заказать</a><a href="#menu">Меню</a><a href="#about">О кухне</a><a href="#contacts">Контакты</a></nav>
-  <a class="btn" href="#menu">Заказать <span class="arr">→</span></a></div>
+  <nav class="nav" id="nav"><a href="#how">Как заказать</a><a href="#menu">Меню</a><a href="#about">О кухне</a><a href="#contacts">Контакты</a></nav>
+  <a class="btn" href="#menu">Заказать <span class="arr">→</span></a>
+  <button class="burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="nav"><span></span></button></div>
 
 <header class="hero">
   <div class="hero-text">
@@ -212,9 +227,9 @@ footer{background:var(--wine-d);color:#d9bfae;font-size:.85rem;padding:22px 0;te
 <section id="about">
   <div class="wrap why rv">
     <div class="collage">
-      <img class="c1" src="assets/sea-cafe-b.jpg" alt="Летняя терраса у моря рядом с фудкортом" loading="lazy" style="object-position:62% 50%">
-      <img class="c2" src="assets/khinkali-cloth.jpg" alt="Хинкали на узорчатой скатерти" loading="lazy">
-      <img class="c3" src="assets/adjaruli.jpg" alt="Хачапури по-аджарски" loading="lazy">
+      <img class="c1" src="assets/about-feast.jpg" alt="Праздничный стол с грузинскими блюдами" loading="lazy">
+      <img class="c2" src="assets/about-a.jpg" alt="Хачапури по-аджарски и хинкали на деревянном столе" loading="lazy">
+      <img class="c3" src="assets/about-b.jpg" alt="Хачапури по-аджарски с яйцом" loading="lazy">
     </div>
     <div>
       <h2>Настоящий вкус Грузии</h2>
@@ -321,6 +336,7 @@ document.addEventListener('click',function(e){
 renderMenu();renderCart();
 var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting)x.target.classList.add('in')})},{threshold:.15});
 document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
-</script>
+// мобильное меню: бургер раскрывает список разделов
+(function(){var b=document.querySelector('.bar'),t=document.querySelector('.burger');if(!b||!t)return;t.addEventListener('click',function(){var o=b.classList.toggle('is-open');t.setAttribute('aria-expanded',o?'true':'false')});b.querySelectorAll('.nav a').forEach(function(a){a.addEventListener('click',function(){b.classList.remove('is-open');t.setAttribute('aria-expanded','false')})})})();</script>
 </body>
 </html>
